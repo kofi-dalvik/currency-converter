@@ -1,0 +1,17 @@
+{
+  "name": "currency-converter",
+  "version": "1.0.0",
+  "description": "A front-end application that uses Freecurrencyconverterapi to convert currencies both online and offline",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Currency",
+    "Converter",
+    "Offline",
+    "Online"
+  ],
+  "author": "Ahmed Dawuda",
+  "license": "ISC"
+}
