@@ -4,7 +4,8 @@
   "description": "A front-end application that uses Freecurrencyconverterapi to convert currencies both online and offline",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack-dev-server --output-public-path=/dist/",
+    "build": "webpack"
   },
   "keywords": [
     "Currency",
@@ -13,5 +14,14 @@
     "Online"
   ],
   "author": "Ahmed Dawuda",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-es2015": "^6.24.1",
+    "webpack": "^4.12.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
+  }
 }

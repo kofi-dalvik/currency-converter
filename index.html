@@ -27,7 +27,7 @@
                 <div class="currencies">
                     <div class="input-element">
                         <label>Currency I have:</label>
-                        <select class="input-select">
+                        <select class="input-select" id="from-type">
                             <option>Option 1</option>
                             <option>Option 2</option>
                             <option>Option 1</option>
@@ -40,25 +40,30 @@
                     </div>
                     <div class="input-element">
                         <label>Amount I have:</label>
-                        <input type="text" placeholder="Enter Amount You have">
+                        <input type="text" placeholder="Enter Amount You have" id="from-value">
                     </div>
                 </div>
                 <div class="currencies">
                     <div class="input-element">
                         <label>Currency I Want:</label>
-                        <select class="input-select">
+                        <select class="input-select" id="to-value">
                             <option>Option 1</option>
                             <option>Option 2</option>
                         </select>
                     </div>
                     <div class="input-element">
                         <label>What I should get:</label>
-                        <input type="text" placeholder="Expected Amount">
+                        <input type="text" placeholder="Expected Amount" id="to-type">
                     </div>
                 </div>
             </div>
-            <a href="javascript:void(0)" class="convert">Convert</a>
+            <a href="javascript:void(0)" class="convert" id="convert">Convert</a>
         </div>
     </div>
+    <div class="progress">
+        <img src="./public/images/progress.gif">
+         converting...
+    </div>
+    <script src="/dist/bundle.js"></script>
 </body>
 </html>

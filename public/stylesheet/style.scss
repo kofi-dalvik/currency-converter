@@ -91,6 +91,7 @@ body{
         display: flex;
         flex-direction: column;
         background: $header-color;
+        
         .convert{
             text-decoration: none;
             text-align: center;
@@ -149,5 +150,19 @@ body{
 
     @media screen and (max-width: 768px) {
         width: 95%;
+    }
+    
+}
+.progress{
+    height: 50px;
+    transition: all 0.25s ease;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    img{
+        margin-right: 5px;
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
     }
 }
