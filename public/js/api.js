@@ -1,3 +1,5 @@
+import {toggleProgressIndicator, validateData} from './helpers'
+
 export default {
     fetchAllCurrencies ([fromType, toType] = document.getElementsByTagName('select')) {
         fetch('https://free.currencyconverterapi.com/api/v5/currencies').then(response => {
@@ -16,8 +18,23 @@ export default {
             console.log(error)
         })
     },
-    convertCurrency () {
-
+    convertCurrency ({from, to, value}, toValue) {
+        toggleProgressIndicator()
+        toValue.className = ''
+        let relation = [from, to].join('_');
+        // console.log(relation)
+        // return false
+        fetch(`https://free.currencyconverterapi.com/api/v5/convert?q=${relation}&compact=ultra`).then(response => {
+            toggleProgressIndicator()
+            return response.json()
+        }).then(data => {
+            // console.log(data)
+            toValue.value = value * data[relation]
+            toValue.className = 'ok'
+        }).catch(error => {
+            console.log(error)
+            toggleProgressIndicator()
+        })
     }
 }
 

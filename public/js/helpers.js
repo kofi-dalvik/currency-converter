@@ -35,7 +35,7 @@ export const validateData = (fromValue, fromType, toType, toValue) => {
         if (!fromValue.value) {
             errorLabel(fromValueLable, 'The amount to convert is required', true)
             return false
-        } else if (!/^\d{0,2}(\.\d{1,2})?$/.test(fromValue.value)) {
+        } else if (!/^(\d*\.)?\d+$/.test(fromValue.value)) {
             errorLabel(fromValueLable, 'A valid number is required', true)
             return false
         } else {
@@ -65,7 +65,8 @@ export const validateData = (fromValue, fromType, toType, toValue) => {
 
         return {
             sameCurrency: fromType.value === toType.value,
-            from: {currency: fromType.value, value: fromValue.value},
-            to: {currency: toType.value}
+            from: fromType.value,
+            to: toType.value,
+            value: fromValue.value
         }
 }

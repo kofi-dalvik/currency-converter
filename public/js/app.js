@@ -1,5 +1,5 @@
 import api from './api'
-import {toggleProgressIndicator, validateData} from './helpers'
+import {validateData} from './helpers'
 
 
 window.onload = (event) => {
@@ -17,8 +17,8 @@ window.onload = (event) => {
     convert.addEventListener('click', (event) => {
         let valid = validateData(fromValue, fromType, toType, toValue);
         if (valid && !valid.sameCurrency) {
-            toggleProgressIndicator()
             console.log(valid)
+            api.convertCurrency(valid, toValue)
         }
     })
 }
