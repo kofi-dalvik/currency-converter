@@ -1,17 +1,27 @@
 /** importing api methods, these methods makes http requests */
 import api from './api'
+import indexDB from './indexDB'
 
 /** importing utility functions, most of which are dom manipulating functions */
-import {validateData} from './helpers'
+import {validateData, displayCurrencies} from './helpers'
 
 
 /** when ready, we fetch all currencies and populate the select inputs with currencies */
 window.onload = (event) => {
 
     /** registering service worker */
-    
-    /** fetch list of currencies */
-    api.fetchAllCurrencies();
+    registerServiceWorker()
+
+    indexDB.populateRatesOfConversion()
+
+    /** fetch currencies if not in db */
+    indexDB.getCurrencies().then(val => {
+        if (!val) {
+            api.fetchAllCurrencies();
+        } else {
+            displayCurrencies(val);
+        }
+    })
 
     /** these are dom elements we are going to use very frequently
      * getting them here will help reduce having to repeat codes accros modules
@@ -38,4 +48,21 @@ window.onload = (event) => {
             
         }
     })
+
+    toType.addEventListener('change', (event) => {
+        if (event.target.value !== fromType.value) {
+            toValue.className = ''
+            toValue.value = ''
+        }
+    })
+}
+
+const registerServiceWorker = () => {
+    if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('sw registered ok')
+        }).catch(() => {
+            console.log('sw not registered')
+        })
+    }
 }

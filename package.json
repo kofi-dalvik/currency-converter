@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --output-public-path=/dist/",
-    "build": "webpack"
+    "build": "webpack",
+    "sw": "babel public/js/sw.js --watch -o sw.js",
+    "db": "babel public/js/indexDB.js --watch -o indexDB.js"
   },
   "keywords": [
     "Currency",
@@ -15,8 +17,11 @@
   ],
   "author": "Ahmed Dawuda",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "idb": "^2.1.3"
+  },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-preset-es2015": "^6.24.1",

@@ -103,3 +103,69 @@ export const validateData = (fromValue, fromType, toType, toValue) => {
             value: fromValue.value
         }
 }
+
+export const displayCurrencies =  (currencies) => {
+
+    const [fromType, toType] = document.getElementsByTagName('select');
+
+     /**
+     * currencies does not implement iteratable protocol
+     * so makeIterable() function converts the object into array
+     * makeIterable() also sorts the currencies into alphabetical order
+     */
+
+    currencies = makeIterable(currencies.results)
+
+    /** with each currency */
+    for(let item of currencies) {
+        
+        /** create option element */
+        let option = document.createElement('option')
+
+        /** set properties of the element */
+        const {id, currencyName, currencySymbol} = item
+
+        option.value = id
+
+        option.innerText = `${id} - ${currencyName} - ${currencySymbol || ''}`
+
+        /** append option elements to dom */
+        fromType.appendChild(option);
+
+        toType.appendChild(option.cloneNode(true));
+    }
+}
+
+/**
+ * @description parses currency object into array and sorts the array
+ * bases on currencyname property. This makes it easy for the user
+ * @param {Object} data
+ * @returns Array of sorted currencies
+ */
+export const makeIterable = (data) => {
+
+    /** convert object into iterable array */
+    let iterable = []
+
+    for(let key in data) {
+
+        iterable.push(data[key])
+
+    }
+
+    /** sort iterable */
+    iterable.sort((a , b) => {
+
+        if (a.currencyName < b.currencyName)
+            return -1;
+
+        if (a.currencyName > b.currencyName)
+            return 1;
+
+        return 0;
+    })
+
+    // console.log(iterable)
+
+    return iterable;
+}

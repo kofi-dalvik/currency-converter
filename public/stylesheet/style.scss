@@ -127,6 +127,9 @@ body{
                     display: flex;
                     justify-content: space-between;
                     flex-wrap: wrap;
+                    input{
+                        text-align: right;
+                    }
                     label{
                         flex-grow: 1;
                     }
@@ -163,10 +166,48 @@ body{
     display: none;
     justify-content: center;
     align-items: center;
-    img{
-        margin-right: 5px;
-        width: 50px;
-        height: 50px;
-        border-radius: 100%;
+    // background: red;
+    // img{
+    //     margin-right: 5px;
+    //     width: 50px;
+    //     height: 50px;
+    //     border-radius: 100%;
+    // }
+    .loader{
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        box-sizing: border-box;
+        border: 3px solid #dddddd;
+        border-top-color: $primary-theme;
+        animation: spin 0.5s linear infinite;
+    }
+    .message{
+        margin-left: 5px;
+        color: $primary-theme;
+    }
+}
+
+@keyframes spin{
+    0%{
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    30%{
+        -moz-transform: rotate(50deg);
+        -webkit-transform: rotate(50deg);
+        -o-transform: rotate(50deg);
+        -ms-transform: rotate(50deg);
+        transform: rotate(50deg);
+    }
+    100%{
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
     }
 }
