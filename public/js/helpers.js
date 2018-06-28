@@ -8,13 +8,9 @@ export const toggleProgressIndicator = () => {
 
     /** check if progress indicator's display property is none then set to flex, else set to none */
     if (progressIndicator.style.display === 'none' || progressIndicator.style.display === '') {
-
         progressIndicator.style.display = 'flex'
-
     } else {
-
         progressIndicator.style.display = 'none'
-
     }
 }
 
@@ -39,62 +35,42 @@ const errorLabel = (el, message, error) => {
 export const validateData = (fromValue, fromType, toType, toValue) => {
 
     let fromValueLable = fromValue.parentElement.firstElementChild, fromTypeLabel = fromType.parentElement.firstElementChild, toTypeLable = toType.parentElement.firstElementChild
-
     let response = null
-    
+
         if (!fromValue.value) {
-
             errorLabel(fromValueLable, 'The amount to convert is required', true)
-
             return false
-
         } else if (!/^(\d*\.)?\d+$/.test(fromValue.value)) {
-
             errorLabel(fromValueLable, 'A valid number is required', true)
-
             return false
-
         } else {
-
             errorLabel(fromValueLable, 'Amount I have', false)
-
         }
+
 
         if (!fromType.value) {
-
             errorLabel(fromTypeLabel, 'Select Currency to convert', true)
-
             return false
-
         } else {
-
             errorLabel(fromTypeLabel, 'Currency I have', false)
-
         }
+
 
         if (!toType.value) {
-
             errorLabel(toTypeLable, 'Select Currency to convert to', true)
-
             return false
-
         } else {
-
             errorLabel(toTypeLable, 'Currency I want', false)
-
         }
 
+        
         if (fromType.value === toType.value) {
-
             toValue.value = fromValue.value
-
             toValue.className = toValue.className + ' ok'
-
         } else {
-
             toValue.className = ''
-            
         }
+
 
         return {
             sameCurrency: fromType.value === toType.value,
@@ -104,6 +80,12 @@ export const validateData = (fromValue, fromType, toType, toValue) => {
         }
 }
 
+
+
+/**
+ * @description displays currencies into the select boxes
+ * @param {JSON} currencies 
+ */
 export const displayCurrencies =  (currencies) => {
 
     const [fromType, toType] = document.getElementsByTagName('select');
@@ -113,7 +95,6 @@ export const displayCurrencies =  (currencies) => {
      * so makeIterable() function converts the object into array
      * makeIterable() also sorts the currencies into alphabetical order
      */
-
     currencies = makeIterable(currencies.results)
 
     /** with each currency */
@@ -124,17 +105,18 @@ export const displayCurrencies =  (currencies) => {
 
         /** set properties of the element */
         const {id, currencyName, currencySymbol} = item
-
         option.value = id
 
+        //replace currency symbol with ' ' if not exist. otherwise it will be undefined
         option.innerText = `${id} - ${currencyName} - ${currencySymbol || ''}`
 
         /** append option elements to dom */
         fromType.appendChild(option);
-
         toType.appendChild(option.cloneNode(true));
     }
 }
+
+
 
 /**
  * @description parses currency object into array and sorts the array
@@ -168,4 +150,13 @@ export const makeIterable = (data) => {
     // console.log(iterable)
 
     return iterable;
+}
+
+
+/**
+ * @description converts between two currencies and displays the values
+ */
+export const displayConversion = ({rate, value}, resultInput) => {
+    resultInput.value = Number(value * rate).toFixed(4);
+    resultInput.className = 'ok'
 }

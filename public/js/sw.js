@@ -1,6 +1,9 @@
-
+//cache version name
 const currentCache = 'currency-converter-v2';
 
+/**
+ * on installation, cache the asset files
+ */
 self.addEventListener('install', (installation) => {
     installation.waitUntil(
         caches.open(currentCache).then(cache => {
@@ -14,6 +17,9 @@ self.addEventListener('install', (installation) => {
     );
 })
 
+/**
+ * on activate, delete old caches
+ */
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then(cacheNames => {
@@ -26,6 +32,10 @@ self.addEventListener('activate', (event) => {
     );
 })
 
+
+/**
+ * on fetch response with a cached data or fetch data
+ */
 self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request).then(response => {

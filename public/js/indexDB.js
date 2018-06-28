@@ -1,15 +1,17 @@
 import idb from 'idb';
-import {makeIterable} from './helpers'
 
 class IndexDB{
+    //constructor creates the db
     constructor () {
-        console.log('store created')
         this._db = idb.open('currency-converter', 1, (upgradeDB) => {
             let store = upgradeDB.createObjectStore('cc-key-val');
-            store.put('world', 'hello')
+            store.put('0.265', 'USD_GHS')
         })
     }
 
+    /**
+     * @description this gets the stored currencies within indexDB
+     */
     getCurrencies() {
         return new Promise((resolve, reject) => {
             this._db.then(db => {
@@ -22,6 +24,10 @@ class IndexDB{
         })
     }
 
+    /**
+     * @description puts the downloaded currencies into the db
+     * @param {json} currencies 
+     */
     setCurrencies (currencies) {
         return new Promise((resolve, reject) => {
             this._db.then(db => {
@@ -33,59 +39,54 @@ class IndexDB{
         })
     }
 
-    isFirstTime () {
+    /**
+     * @description adds a newly downloaded rate to the db
+     * @param {string} key 
+     * @param {number} value 
+     */
+    addRate (key, value) {
         return new Promise((resolve, reject) => {
             this._db.then(db => {
-                let transaction = db.transaction('cc-key-val');
+                let transaction = db.transaction('cc-key-val', 'readwrite');
                 let store = transaction.objectStore('cc-key-val');
-                return store.get('firsttime')
-            })
+                store.put(value, key)
+                return transaction.complete;
+            }).then(() => resolve(true)).catch(() => reject(null))
         })
     }
 
-    populateRatesOfConversion () {
-        console.log('in populateRatesOfConvertion')
-        fetch(`https://free.currencyconverterapi.com/api/v5/convert?q=USD_PHP,USD_GHS&compact=ultra`, {mode: 'no-cors'}).then(response => {
-            return response.json()
-        }).then(val => {
-            console.log(val)
-        })
+    /**
+     * @description finds a given rate from the db. if rate not found it finds
+     * the reverse rate next, if that also not found then it rejects
+     * @param {string} key 
+     */
+    findRate (key) {
         return new Promise((resolve, reject) => {
-            this.getCurrencies().then(currencies => {
-                currencies = makeIterable(currencies.results).slice(0, 10);
+            this._db.then(db => {
+                //create transaction
+                let transaction = db.transaction('cc-key-val');
+                let store = transaction.objectStore('cc-key-val');
+                //create reverse ralation
+                //eg relation: USD_EUR will reverse to give EUR_USD
+                let reversekey = key.split('_').reverse().join('_');
 
-                // currencies = [{id: 'A'}, {id: 'B'}, {id: 'C'}, {id: 'D'},{id: 'E'}, {id: 'F'}]
-                let relation = ``
-                let limit = 0;
-
-                for (let i = 0; i < currencies.length; i++) {
-                    let j = i + 1;
-                    while(j < currencies.length) {
-
-                        let pair = `${currencies[i].id}_${currencies[j].id},`
-                        limit++
-                        relation += pair
-                        // console.log(`relation as at limit ${limit} = ${relation}`)
-                        
-                        if (limit % 2 == 0) {
-                            relation = relation.substring(0, relation.length - 1)
-                            console.log(relation)
-                           
-                            // setTimeout(function () {
-                               
-                            // }, 3000)
-
-                            relation = ``
-                        }
-                        j++
-                    }
+                //this promises will resolve to defined and undefined data
+                return Promise.all([store.get(key), store.get(reversekey)])
+            }).then(val => {
+                //if first value is defined, then its the rate, resolve the rate
+                if (val[0] && !val[1]) {
+                    resolve(val[0])
+                } else if (!val[0] && val[1]) {
+                    //if second value is defined, then resolve the invert the rate
+                    resolve(1/val[1])
+                } else {
+                    reject(false)
                 }
-                console.log(relation)
-            }).catch( (err) => {
-                console.log('cannot populateRates of covertions', err)
             })
         })
     }
 }
 
+
+//finally, export an instance of this class
 export default new IndexDB();
