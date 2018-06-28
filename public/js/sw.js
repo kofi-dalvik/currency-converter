@@ -1,5 +1,5 @@
 //cache version name
-const currentCache = 'currency-converter-v2';
+const currentCache = 'currency-converter-v1';
 
 /**
  * on installation, cache the asset files
@@ -12,7 +12,10 @@ self.addEventListener('install', (installation) => {
                 '/dist/bundle.js',
                 '/dist/style.css',
                 '/dist/logo.png'
-            ])
+            ]).then(() => {
+                //skip waiting
+                return self.skipWaiting()
+            })
         })
     );
 })
@@ -28,6 +31,9 @@ self.addEventListener('activate', (event) => {
                     caches.delete(name)
                 }
             });
+        }).then(() => {
+            //set worker as active for all clients
+            self.clients.claim();
         })
     );
 })
