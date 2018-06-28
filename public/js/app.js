@@ -89,9 +89,12 @@ window.onload = (event) => {
 const registerServiceWorker = () => {
     if (navigator.serviceWorker) {
         navigator.serviceWorker.register('/sw.js').then(registration => {
-            console.log('sw registered')
+            navigator.serviceWorker.addEventListener('controllerchange', (event) => {
+                //reloading browser when new worker is installed
+                window.location.reload()
+            })
         }).catch(() => {
             console.log('sw not registered')
         })
     }
-}
+} 

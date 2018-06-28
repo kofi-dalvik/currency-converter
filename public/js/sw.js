@@ -2,7 +2,7 @@
 const currentCache = 'currency-converter-v1';
 
 /**
- * on installation, cache the asset files
+ * on installation, cache the asset files and dont wait
  */
 self.addEventListener('install', (installation) => {
     installation.waitUntil(
