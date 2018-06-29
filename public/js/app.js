@@ -52,7 +52,6 @@ window.onload = (event) => {
 
         //if form is valid, and not of the same currency conversion
         if (valid && !valid.sameCurrency) {
-
             const {to, from, value} = valid
 
             //the query paramter, the ralation between the two currencies

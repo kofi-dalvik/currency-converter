@@ -87,7 +87,6 @@ export const validateData = (fromValue, fromType, toType, toValue) => {
  * @param {JSON} currencies 
  */
 export const displayCurrencies =  (currencies) => {
-
     const [fromType, toType] = document.getElementsByTagName('select');
 
      /**
@@ -128,26 +127,18 @@ export const makeIterable = (data) => {
 
     /** convert object into iterable array */
     let iterable = []
-
     for(let key in data) {
-
         iterable.push(data[key])
-
     }
 
     /** sort iterable */
     iterable.sort((a , b) => {
-
         if (a.currencyName < b.currencyName)
             return -1;
-
         if (a.currencyName > b.currencyName)
             return 1;
-
         return 0;
     })
-
-    // console.log(iterable)
 
     return iterable;
 }
